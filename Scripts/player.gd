@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # walking / running speed
-const SPEED = 130.0
+const speed = 80.0
 
 # last X or Y recorded, used for idle animations
 var lastX = 0
@@ -19,27 +19,12 @@ func _physics_process(delta: float) -> void:
 	animated_sprite.flip_h = false
 	
 	# Movement for walking
-	# for X (left -1 and right +1)
-	if directionX:
-		velocity.x = directionX * SPEED
-	else: # else stop moving in x direction
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-	
-	# for Y (up -1, down 1)
-	if directionY:
-		velocity.y = directionY * SPEED
-	else: # else stop moving in y direction
-		velocity.y = move_toward(velocity.y, 0, SPEED)
+	# for X (left -1 and right +1), for Y (up -1, down 1)
+		# Normalize the velocty vector (to not have super fast diagonal movement)
+	velocity = Vector2(directionX, directionY).normalized() * speed
+	move_and_slide()
 	
 	# Animations for movement
-	if directionY == 1:
-		lastY = 1
-		lastX = 0
-		animated_sprite.play("walking")
-	elif directionY == -1:
-		lastY = -1
-		lastX = 0
-		animated_sprite.play("walking-back")
 	if directionX == 1:
 		lastX = 1
 		lastY = 0
@@ -50,6 +35,14 @@ func _physics_process(delta: float) -> void:
 		lastY = 0
 		animated_sprite.flip_h = true
 		animated_sprite.play("walking-side")
+	elif directionY == 1:
+		lastY = 1
+		lastX = 0
+		animated_sprite.play("walking")
+	elif directionY == -1:
+		lastY = -1
+		lastX = 0
+		animated_sprite.play("walking-back")
 	
 	# Animation for idle
 	if directionX == 0 && directionY == 0:
@@ -62,5 +55,3 @@ func _physics_process(delta: float) -> void:
 			animated_sprite.play("idle-side")
 		elif lastX == 1:
 			animated_sprite.play("idle-side")
-
-	move_and_slide()

@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://2gb6hwrt44or"]
+[gd_scene load_steps=32 format=3 uid="uid://2gb6hwrt44or"]
 
 [ext_resource type="Texture2D" uid="uid://b1ebrdde5u0gb" path="res://Assets/Sprites/Player/dude-idle.png" id="1_ixbca"]
 [ext_resource type="Texture2D" uid="uid://ca5x2q68asl1" path="res://Assets/Sprites/Player/idle-side.png" id="2_ilml1"]
 [ext_resource type="Texture2D" uid="uid://bow4a25qj3e81" path="res://Assets/Sprites/Player/dude-walking.png" id="2_ma7cb"]
 [ext_resource type="Texture2D" uid="uid://dc6mqva0dfjgh" path="res://Assets/Sprites/Player/idle-back.png" id="2_q7jvs"]
 [ext_resource type="Texture2D" uid="uid://x1o6u5xmv5el" path="res://Assets/Sprites/Player/dude-walking_back.png" id="4_dvdlk"]
+[ext_resource type="Texture2D" uid="uid://cavyfgvkne5vn" path="res://Assets/Sprites/Player/dude-mining.png" id="4_s6kub"]
 [ext_resource type="Texture2D" uid="uid://bjmvswb5ewuv2" path="res://Assets/Sprites/Player/walking-side.png" id="5_y55rf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qabgc"]
@@ -30,6 +31,22 @@ region = Rect2(0, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_tdut0"]
 atlas = ExtResource("2_ilml1")
 region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rong"]
+atlas = ExtResource("4_s6kub")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6ege"]
+atlas = ExtResource("4_s6kub")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uolqo"]
+atlas = ExtResource("4_s6kub")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olggm"]
+atlas = ExtResource("4_s6kub")
+region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mryhk"]
 atlas = ExtResource("2_ma7cb")
@@ -116,6 +133,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_3rong")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l6ege")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uolqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olggm")
+}],
+"loop": true,
+"name": &"mining",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_mryhk")
 }, {
 "duration": 1.0,
@@ -171,12 +205,12 @@ radius = 3.0
 height = 6.0
 
 [node name="Player" type="CharacterBody2D"]
+y_sort_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_v0kla")
-animation = &"idle-back"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.442861
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)

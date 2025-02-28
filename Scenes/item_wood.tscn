@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4621uy2dfllv"]
+
+[ext_resource type="Texture2D" uid="uid://bctd7mbrtjx0p" path="res://Assets/Sprites/Items/wood.png" id="1_2geku"]
+
+[node name="Sprite2D" type="Sprite2D"]
+y_sort_enabled = true
+texture = ExtResource("1_2geku")
+offset = Vector2(0, 4)
