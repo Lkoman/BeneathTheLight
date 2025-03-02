@@ -19,7 +19,18 @@ var playerPositionOnMap = null
 ## REFERENCES
 var playerNode = null
 
+## SCENES & INSTANCES
+var woodScene
+var woodInstance
+
+## RANDOM NUMBER GENERATOR
+var randNumGen = RandomNumberGenerator.new()
+var myRandNum_x
+var myRandNum_y
+
 func _ready() -> void:
+	## load the scenes
+	woodScene = preload("res://Scenes/item_wood.tscn")
 	## get references
 	playerNode = get_node("../Player")
 	## get camera object
@@ -28,7 +39,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	## get player position on tileMapLayer
 	playerPositionOnMap = local_to_map(playerNode.get_position())
-	print(playerPositionOnMap)
+	# print(playerPositionOnMap)
 
 ## Handle events
 func _input(event):
@@ -57,12 +68,18 @@ func mouseClickHandle():
 			else:
 				## if mining ended, erase the cell and drop items
 				isMining = false
+				## create a random number for random drop of items
+				myRandNum_x = randNumGen.randf_range(-20, 20)
+				myRandNum_y = randNumGen.randf_range(-20, 20)
 				## TREES
 				if (miningObjectID == 2 || miningObjectID == 5):
-					var woodScene = load("res://Scenes/item_wood.tscn")
-					var instance = woodScene.instantiate()
-					instance.set_position(miningObjectCoordinates)
-					add_child(instance)
+					## call the wood scene and create an instance of it
+					## place the instance where the tree was
+					woodInstance = woodScene.instantiate()
+					woodInstance.set_position(
+						Vector2(miningObjectCoordinates.x + myRandNum_x, 
+						miningObjectCoordinates.y + myRandNum_y))
+					add_child(woodInstance)
 					erase_cell(miningObjectCell)
 			
 			print(miningObjectID, " ", isMining)
