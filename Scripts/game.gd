@@ -15,22 +15,28 @@ extends Node2D
 	## 20-29 flowers (20 pink flower, 21 red flower)
 var objectMap: Array = []
 ## width and length of table - size (vedno kvadratno)
-const objectMapSize: int = 100
+const objectMapSize: int = 16
+
+var playerPosition
+var playerTilePosition
 
 ## REFERENCES
 @onready var player: CharacterBody2D = $Player
-var playerPosition
+@onready var world_tiles: TileMapLayer = $WorldTiles
+@onready var objects_tiles: TileMapLayer = $ObjectsTiles
 
-## SCENES & INSTANCES
+## Dictionary of the objects with its scenes and instances
 var objects = {
-	"greenTree": {},
-	"orangeTree": {},
-	"smallRock": {},
-	"pinkFlower": {},
-	"redFlower": {}
+	"greenTree": {"instances": []},
+	"orangeTree": {"instances": []},
+	"smallRock": {"instances": []},
+	"pinkFlower": {"instances": []},
+	"redFlower": {"instances": []}
 }
 
 func _ready() -> void:
+	## Set the seed
+	#seed(123)
 	## Preload the scenes
 	objects["greenTree"]["scene"] = preload("res://Scenes/greenTree.tscn")
 	objects["orangeTree"]["scene"] = preload("res://Scenes/orangeTree.tscn")
@@ -39,45 +45,51 @@ func _ready() -> void:
 	objects["redFlower"]["scene"] = preload("res://Scenes/redFlower.tscn")
 	
 	## CREATE & FILL THE OBJECT MAP ##
-	var roll: float = 0.0
+	createObjectMap()
+	drawObjectMap()
+
+func _process(delta: float) -> void:
+	playerPosition = player.get_position()
+	playerTilePosition = world_tiles.local_to_map(playerPosition)
+	
+	# print(playerTilePosition)
+	
+func drawObjectMap():
+	var flip: bool
 	var x: float
 	var y: float
+	for i in objectMapSize:
+		for j in objectMapSize:
+			flip = randi() % 2 == 0
+			x = ((i + 1) * 16) - ((objectMapSize * 16) / 2) - 8
+			y = ((j + 1) * 16) - ((objectMapSize * 16) / 2) - 8
+			## DRAW OBJECTS ON MAP
+			if (objectMap[i][j] != "none"):
+				objects[objectMap[i][j]]["instances"].append(objects[objectMap[i][j]]["scene"].instantiate())
+				objects[objectMap[i][j]]["instances"].back().set_position(Vector2(x, y))
+				if flip:
+					objects[objectMap[i][j]]["instances"].back().find_children("Sprite2D")[0].set_flip_h(true)
+				else:
+					objects[objectMap[i][j]]["instances"].back().find_children("Sprite2D")[0].set_flip_h(false)
+				add_child(objects[objectMap[i][j]]["instances"].back())
+
+## CREATE OBJECT MAP AND FILL IT
+	## Using ranf for randomness
+func createObjectMap():
+	var roll: float = 0.0
 	for i in objectMapSize:
 		objectMap.append([])
 		for j in objectMapSize:
 			roll = randf()
-			x = ((i + 1) * 16) - ((objectMapSize * 16) / 2) - 8
-			y = ((j + 1) * 16) - ((objectMapSize * 16) / 2) - 8
-			if roll <= 0.8: # 80% chance za nič
-				objectMap[i].append(0)
-			elif roll <= 0.82: # 2%
-				objectMap[i].append(1) ## green tree
-				## DRAW OBJECTS ON MAP
-				objects["greenTree"]["instance"] = objects["greenTree"]["scene"].instantiate()
-				objects["greenTree"]["instance"].set_position(Vector2(x, y))
-				add_child(objects["greenTree"]["instance"])
-			elif roll <= 0.83: # 1%
-				objectMap[i].append(2) ## orange tree
-				objects["orangeTree"]["instance"] = objects["orangeTree"]["scene"].instantiate()
-				objects["orangeTree"]["instance"].set_position(Vector2(x, y))
-				add_child(objects["orangeTree"]["instance"])
-			elif roll <= 0.85: # 2%
-				objectMap[i].append(10) ## small rock
-				objects["smallRock"]["instance"] = objects["smallRock"]["scene"].instantiate()
-				objects["smallRock"]["instance"].set_position(Vector2(x, y))
-				add_child(objects["smallRock"]["instance"])
-			elif roll <= 0.95: # 10%
-				objectMap[i].append(20) ## pink flower
-				objects["pinkFlower"]["instance"] = objects["pinkFlower"]["scene"].instantiate()
-				objects["pinkFlower"]["instance"].set_position(Vector2(x, y))
-				add_child(objects["pinkFlower"]["instance"])
-			else: # 5%
-				objectMap[i].append(21) ## red flower
-				objects["redFlower"]["instance"] = objects["redFlower"]["scene"].instantiate()
-				objects["redFlower"]["instance"].set_position(Vector2(x, y))
-				add_child(objects["redFlower"]["instance"])
-	# print(objectMap)
-
-func _process(delta: float) -> void:
-	playerPosition = player.get_position()
-	# print(playerPosition)
+			if roll <= 0.9: # 80% chance za nič
+				objectMap[i].append("none")
+			elif roll <= 0.91: # 1%
+				objectMap[i].append("greenTree") ## green tree
+			elif roll <= 0.915: # 0.5%
+				objectMap[i].append("orangeTree") ## orange tree
+			elif roll <= 0.925: # 1%
+				objectMap[i].append("smallRock") ## small rock
+			elif roll <= 0.975: # 5%
+				objectMap[i].append("pinkFlower") ## pink flower
+			else: # 2.5%
+				objectMap[i].append("redFlower") ## red flower

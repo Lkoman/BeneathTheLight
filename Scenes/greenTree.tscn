@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://injqvrjn07sj" path="res://Assets/Sprites/Objects/greenTree.png" id="1_vg7md"]
 
 [node name="StaticBody2D" type="StaticBody2D"]
+y_sort_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
