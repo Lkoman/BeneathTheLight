@@ -1,9 +1,13 @@
 extends CharacterBody2D
+#############################################################
+##
 ## Responsible for movement: moving, dashing, sprinting
 ## Also responsible for animations: idle, running, sprint, dashing
 ##
 ## Varibles are explained below
 ## Functions explained below
+##
+##############################################################
 
 ## SPEED & DASHING
 var speed = 60.0

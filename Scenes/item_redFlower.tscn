@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dn2d7016tjpyj"]
+
+[ext_resource type="Texture2D" uid="uid://x114fyvyurit" path="res://Assets/Sprites/Items/redFlower_item.png" id="1_r58b1"]
+
+[node name="redFlower" type="StaticBody2D"]
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+texture = ExtResource("1_r58b1")
+offset = Vector2(0, 5)

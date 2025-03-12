@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2j0qpd3sf6m2"]
+
+[ext_resource type="Texture2D" uid="uid://r17mcg2j8exh" path="res://Assets/Sprites/Items/pinkFlower_item.png" id="1_omnyj"]
+
+[node name="pinkFlower" type="StaticBody2D"]
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+texture = ExtResource("1_omnyj")
+offset = Vector2(0, 5)
+flip_h = true

@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://djo8saynvqh1v"]
+[gd_scene load_steps=4 format=3 uid="uid://djo8saynvqh1v"]
 
+[ext_resource type="Script" path="res://Scripts/objects/greenTree.gd" id="1_pjv7e"]
 [ext_resource type="Texture2D" uid="uid://injqvrjn07sj" path="res://Assets/Sprites/Objects/greenTree.png" id="1_vg7md"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dlh26"]
@@ -22,6 +23,7 @@ polygon = PackedVector2Array(-16, 16, -11, 11, -7, 10, -7, 8, 5, 8, 5, 10, 12, 1
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 0
+script = ExtResource("1_pjv7e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, -4)
