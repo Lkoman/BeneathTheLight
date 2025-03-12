@@ -10,3 +10,6 @@ export_presets.cfg
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Temporary scenes
+Scenes/*.tmp
