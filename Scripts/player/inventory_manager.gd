@@ -2,52 +2,37 @@ extends Node
 #########################################################
 ##
 ## This file is responsible for managing the inventory
-## It communicates with object_tiles.gd
+##
+## It communicates with object_manager.gd
 ##
 #########################################################
 
+## REREFENCES
+var obj_manager: Node ## get instance of object_manager from object_manager.gd
+
 ## Inventory dictionary of dictionaries
-	## ItemID == objectID in itemToObject dictionary in file object_tiles.gd
+	## ItemID == objectID in itemToObject dictionary in file object_manager.gd
 var INVENTORY = {
-	## itemID: { stacks: [numOfObjects, numOfObjects, ...], scene: scene}
+	## itemID: { stacks: [numOfObjects, numOfObjects, ...]}
 }
 
 ## The size of stacks in the inventory
 var inventorySize: int = 0
 
 ## The max size of unique items in the inventory
-var maxSizeOfInventory: int = 5
-var maxNumOfItems: int = 15
-
-## References
-var objTiles ## get instance of object_tiles from object_tiles.gd
+var maxSizeOfInventory: int = 1
+var maxNumOfItems: int = 1 ## per stack
 
 
-func _ready() -> void:
-	pass
-
-
-func _process(delta: float) -> void:
-	pass
-
-
-func addItemToInventory(itemID, scene, numOfItems):
+## Adds the sent item to the inventory
+func addItemToInventory(itemID, numOfItems):
 	## If item does not exist in the inventory, create it
 	if (!INVENTORY.has(itemID)):
-		INVENTORY[itemID] = {}
-		INVENTORY[itemID]["stacks"] = []
-		INVENTORY[itemID]["scene"] = scene
-		
-		## Create new item stack
-		createNewItemStack(itemID, numOfItems)
-		
-		print(INVENTORY)
-		print("size: ", inventorySize)
-		
-		return
+		createNewItem(itemID, numOfItems);
+		return ## Exit the function
 	
-	#########################################
-	## IF THE ITEM EXISTS IN THE INVENTORY ##
+	#################################################
+	## IF THE ITEM ALREADY EXISTS IN THE INVENTORY ##
 	
 	## If last stack is full, create a new stack
 	if (INVENTORY[itemID]["stacks"].back() == maxNumOfItems):
@@ -70,12 +55,23 @@ func addItemToInventory(itemID, scene, numOfItems):
 		## Create a new stack with nextStack number of items
 		createNewItemStack(itemID, nextStack)
 	
-	print(INVENTORY)
-	print("size: ", inventorySize)
+	print(INVENTORY);
 
 
+func createNewItem(itemID, numOfItems):
+	INVENTORY[itemID] = {}
+	INVENTORY[itemID]["stacks"] = []
+	# INVENTORY[itemID]["scene"] = scene
+	
+	## Create new item stack
+	createNewItemStack(itemID, numOfItems)
+	
+	print(INVENTORY);
+
+
+## Create new stack of items
 func createNewItemStack(itemID, numOfItems):
-	## If numOfItems <= maxNumOfItems we can add them all to one stack
+	## Check if we can add all the items to one stack
 	if (numOfItems <= maxNumOfItems):
 		INVENTORY[itemID]["stacks"].append(numOfItems)
 		inventorySize += 1
@@ -97,6 +93,7 @@ func createNewItemStack(itemID, numOfItems):
 			inventorySize += 1
 
 
+## Returns true if inventory cannot fit itemID, false if it can fit itemID
 func isInventoryFull(itemID):
 	## Če je inventorySize manjši od maxSizeOfInventory vedno returna true
 	if (inventorySize < maxSizeOfInventory):

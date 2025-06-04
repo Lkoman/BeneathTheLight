@@ -1,14 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2j0qpd3sf6m2"]
+[gd_scene load_steps=4 format=3 uid="uid://d1mfsxksg1d4t"]
 
-[ext_resource type="Texture2D" uid="uid://r17mcg2j8exh" path="res://Assets/Sprites/Items/pinkFlower_item.png" id="1_omnyj"]
+[ext_resource type="Texture2D" uid="uid://r17mcg2j8exh" path="res://Assets/Sprites/Items/11_pinkFlower_item.png" id="1_omnyj"]
+[ext_resource type="Script" path="res://Scripts/objects/object.gd" id="2_sc4jo"]
 
-[node name="pinkFlower" type="StaticBody2D"]
-y_sort_enabled = true
+[sub_resource type="CircleShape2D" id="CircleShape2D_c4qjv"]
+
+[node name="Area2D" type="Area2D"]
 collision_layer = 4
-collision_mask = 0
+collision_mask = 2
+script = ExtResource("2_sc4jo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -5)
 texture = ExtResource("1_omnyj")
-offset = Vector2(0, 5)
-flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_c4qjv")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

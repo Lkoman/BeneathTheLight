@@ -1,8 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4621uy2dfllv"]
+[gd_scene load_steps=4 format=3 uid="uid://cirysa37n6yss"]
 
-[ext_resource type="Texture2D" uid="uid://bctd7mbrtjx0p" path="res://Assets/Sprites/Items/wood.png" id="1_2geku"]
+[ext_resource type="Script" path="res://Scripts/objects/object.gd" id="1_ikpw8"]
+[ext_resource type="Texture2D" uid="uid://bctd7mbrtjx0p" path="res://Assets/Sprites/Items/2_wood_item.png" id="2_48xkk"]
 
-[node name="Sprite2D" type="Sprite2D"]
-y_sort_enabled = true
-texture = ExtResource("1_2geku")
-offset = Vector2(0, 4)
+[sub_resource type="CircleShape2D" id="CircleShape2D_c4qjv"]
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ikpw8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_48xkk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_c4qjv")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

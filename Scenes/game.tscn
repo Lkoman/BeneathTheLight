@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://Scripts/player/player.gd" id="4_qdgwp"]
 [ext_resource type="Texture2D" uid="uid://b2ogoiwfx3th8" path="res://Assets/Sprites/Objects/flower.png" id="5_pdlkb"]
 [ext_resource type="Texture2D" uid="uid://26kn5ispvnl8" path="res://Assets/Sprites/Objects/all_trunks.png" id="6_4jlkn"]
-[ext_resource type="Script" path="res://Scripts/objects/objects_tiles.gd" id="6_8i54v"]
+[ext_resource type="Script" path="res://Scripts/objects/objects_manager.gd" id="6_8i54v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mxxtr"]
 texture = ExtResource("1_3t5xo")

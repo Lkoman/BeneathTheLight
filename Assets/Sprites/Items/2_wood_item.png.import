@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x114fyvyurit"
-path="res://.godot/imported/redFlower_item.png-839df0edef8c9ee9e75e3c93501614fe.ctex"
+uid="uid://bctd7mbrtjx0p"
+path="res://.godot/imported/2_wood_item.png-94c329056578d3568c0d32bd6bc1194f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Items/redFlower_item.png"
-dest_files=["res://.godot/imported/redFlower_item.png-839df0edef8c9ee9e75e3c93501614fe.ctex"]
+source_file="res://Assets/Sprites/Items/2_wood_item.png"
+dest_files=["res://.godot/imported/2_wood_item.png-94c329056578d3568c0d32bd6bc1194f.ctex"]
 
 [params]
 
