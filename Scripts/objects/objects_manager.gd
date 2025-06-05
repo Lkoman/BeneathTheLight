@@ -16,7 +16,6 @@ extends TileMapLayer
 # var seed_manager: Node
 var inventory_manager: Node
 var player_interactions: Node
-var player: Node
 
 ###############
 ## VARIABLES ##
@@ -28,7 +27,7 @@ var mapLayerCoords: Vector2 ## tileMapLayer coordinates
 
 ## Player
 var playerCoordsTileMapLayer: Vector2 ## position of player on TileMapLayer
-var pickup := false
+var interact := false
 
 ## Mined object data
 var miningObjectID: int ## the object that is being mined
@@ -63,27 +62,34 @@ func _ready() -> void:
 	getRerefrences()
 
 func _process(delta: float) -> void:
-	pass
+	## Get mouse coordinates on the screen
+	mouseScreenCoords = camera.get_global_mouse_position()
 
 ## On input check for object interactions
 func _input(event):
-	if Input.is_action_just_pressed("mine_object"):
+	if Input.is_action_just_pressed("mine_object") && !playerNode.attack:
 		mineObject()
-	if Input.is_action_just_pressed("pickup_object"):
-		pickup = true
-	elif Input.is_action_just_released("pickup_object"):
-		pickup = false
+		playerNode.attack = true
+	if Input.is_action_just_pressed("interact_with_object"):
+		interact = true
+	elif Input.is_action_just_released("interact_with_object"):
+		interact = false
 	
 	# TESTING
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_key_pressed(KEY_I): # Increase Inventory
 		inventory_manager.maxSizeOfInventory = 5
 		inventory_manager.maxNumOfItems = 15
+	elif Input.is_key_pressed(KEY_O): # swOrd
+		playerNode.equip_new_weapon("sword")
+	elif Input.is_key_pressed(KEY_P): # Punch
+		playerNode.equip_new_weapon("punch")
 
 
 #####################
 ## BASIC FUNCTIONS ##
 #####################
 
+## The pickUp happens in the item_automatic_pickup.gd of each instance
 func pickUp(itemID):
 	if inventory_manager.isInventoryFull(itemID):
 		return false
@@ -91,8 +97,6 @@ func pickUp(itemID):
 	return true
 
 func mineObject():
-	## Get mouse coordinates on the screen
-	mouseScreenCoords = camera.get_global_mouse_position()
 	## Convert screen coordinates to tileMapLayer coordinates
 	mapLayerCoords = local_to_map(mouseScreenCoords)
 	
@@ -126,7 +130,9 @@ func getRerefrences():
 	
 	## Send the instance of THIS script to inventory_manager.gd
 	inventory_manager.obj_manager = self
-	player_interactions.inventory_manager = inventory_manager
+	playerNode.player_interactions = player_interactions
+	player_interactions.player = playerNode
+	player_interactions.obj_manager = self
 
 ###########
 ## LOGIC ##
@@ -137,7 +143,6 @@ func playerCloseToObject(playerCoords, objectCoords):
 			(objectCoords.y <= playerCoords.y + 3 && objectCoords.y >= playerCoords.y - 3))
 
 func miningLogic():
-	
 	######################################################################
 	## If the object exists (can drop an item), continue with mining it ##
 	
@@ -147,7 +152,6 @@ func miningLogic():
 	
 	## If an object has a random range, set it, otherwise leave at 1
 	var randRange: Array = [1, 1]
-	print(miningObjectID);
 	if (objectToItem[miningObjectID].has("randRange")):
 		randRange = objectToItem[miningObjectID]["randRange"]
 	

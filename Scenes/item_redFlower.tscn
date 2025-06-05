@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://df8euo1xqgfsh"]
 
-[ext_resource type="Script" path="res://Scripts/objects/object.gd" id="1_2aq2p"]
+[ext_resource type="Script" path="res://Scripts/objects/item_automatic_pickup.gd" id="1_2aq2p"]
 [ext_resource type="Texture2D" uid="uid://x114fyvyurit" path="res://Assets/Sprites/Items/10_redFlower_item.png" id="2_sdsw0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c4qjv"]

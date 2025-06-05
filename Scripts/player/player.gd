@@ -11,9 +11,26 @@ extends CharacterBody2D
 
 ## REFERENCES
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var object_manager: TileMapLayer = $"../ObjectsTiles"
+@onready var sword_damage: Area2D = $sword_damage
+@onready var punch_damage: Area2D = $punch_damage
+@onready var stamina_bar: TextureProgressBar = $"../CanvasLayer/Stamina Bar"
+@onready var health_bar: TextureProgressBar = $"../CanvasLayer/Health Bar"
+
+var player_interactions
 
 ## DAMAGE
 var damage := 1.0
+var attack := false
+var in_attack := false
+
+## WEAPON
+var weapon :String
+var damageArea :Node
+var all_weapons = {
+	"sword": {"staminaCost": 15},
+	"punch": {"staminaCost": 10},
+}
 
 ## SPEED
 var speed := 60.0
@@ -45,19 +62,29 @@ var lastY := 0
 ## 1, 0, -1 for x or y
 var directionX := 0
 var directionY := 0
+var movement := false
 
 
 func _ready() -> void:
 	## create the dash timer and its properties
 	dashTimer = Timer.new()
 	dashTimer.one_shot = true
-	dashTimer.wait_time = 0.12 ## set how long the dash will last
+	dashTimer.wait_time = 0.15 ## set how long the dash will last
 	dashTimer.connect("timeout", _on_dashTimer_timeout)
 	add_child(dashTimer)
+
+	animated_sprite.animation_finished.connect(_on_animation_finished)
+	
+	equip_new_weapon("punch")
 
 
 ## Moving and animations
 func _physics_process(delta: float) -> void:
+	stamina_bar.value = stamina
+	
+	if (in_attack):
+		return
+	
 	if (dash):
 		animated_sprite.play("dash")
 	
@@ -65,14 +92,17 @@ func _physics_process(delta: float) -> void:
 	else:
 		directionX = Input.get_axis("move_left", "move_right")
 		directionY = Input.get_axis("move_forward", "move_backwards")
-		animated_sprite.flip_h = false
 		
-		if directionX == 0 && directionY == 0: ## no movement
-			dashAvailable = false;
-			idleAnimation()
-		else:
-			dashAvailable = true;
-			movementAnimation()
+		animated_sprite.flip_h = false
+		movement = is_movement()
+		
+		if (!attacking()):
+			if movement:
+				dashAvailable = true;
+				movementAnimation()
+			else:
+				dashAvailable = false;
+				idleAnimation()
 	
 	## STAMINA
 	if (sprint):
@@ -112,48 +142,89 @@ func _input(event):
 		speed = 100;
 		sprint = true
 		
-	else: ## walk
+	elif (!dash): ## walk
 		speed = 60;
 		sprint = false
 
+func is_movement():
+	return !(directionX == 0 && directionY == 0);
 
 ################
 ## ANIMATIONS ##
 ################
 
 func movementAnimation():
-	## desno
+	## desno (1) in levo (-1)
 	if directionX == 1:
-		lastX = 1
+		lastX = directionX
 		lastY = 0
 		animated_sprite.play("walking-side")
-	## levo
 	elif directionX == -1:
-		lastX = -1
+		lastX = directionX
 		lastY = 0
 		animated_sprite.flip_h = true
 		animated_sprite.play("walking-side")
-	## dol
-	elif directionY == 1:
-		lastY = 1
-		lastX = 0
-		animated_sprite.play("walking")
 	## gor
 	elif directionY == -1:
 		lastY = -1
 		lastX = 0
 		animated_sprite.play("walking-back")
+	## dol
+	else:
+		lastY = 1
+		lastX = 0
+		animated_sprite.play("walking")
 
 func idleAnimation():
-	if lastY == -1:
-		animated_sprite.play("idle-back")
-	elif lastY == 1:
-		animated_sprite.play("idle")
-	if lastX == -1:
+	## desno (1) in levo (-1)
+	if lastX == 1:
+		animated_sprite.play("idle-side")
+	elif lastX == -1:
 		animated_sprite.flip_h = true
 		animated_sprite.play("idle-side")
-	elif lastX == 1:
-		animated_sprite.play("idle-side")
+	## gor
+	elif lastY == -1:
+		animated_sprite.play("idle-back")
+	## dol
+	else:
+		animated_sprite.play("idle")
+
+func _on_animation_finished():
+	attack = false
+	in_attack = false
+	player_interactions.disable_damage_area(damageArea)
+
+############
+## ATTACK ##
+############
+
+func attacking():
+	if (attack && stamina >= all_weapons[weapon]["staminaCost"]):
+		stamina -= all_weapons[weapon]["staminaCost"]
+		player_interactions.attack()
+		var direction = player_interactions.get_attack_direction()
+		
+		match direction:
+			"down":
+				animated_sprite.play(weapon + "_attack")
+			"up":
+				animated_sprite.play(weapon + "_attack-back")
+			"right":
+				animated_sprite.play(weapon + "_attack-side")
+			"left":
+				animated_sprite.flip_h = true
+				animated_sprite.play(weapon + "_attack-side")
+		
+		player_interactions.enable_damage_area(damageArea, direction)
+		in_attack = true
+		return 1
+	return 0
+
+func equip_new_weapon(new_weapon):
+	weapon = new_weapon
+	damageArea = get_node(new_weapon + "_damage")
+	
+	player_interactions.disable_all_damage_areas()
 
 ##########
 ## DASH ##
