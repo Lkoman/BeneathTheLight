@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=4 uid="uid://cx700hd8idfg3"]
 
 [ext_resource type="Texture2D" uid="uid://ctl33fmgd8o48" path="res://Assets/Sprites/World/tileSet.png" id="1_3t5xo"]
-[ext_resource type="PackedScene" uid="uid://2gb6hwrt44or" path="res://Scenes/player.tscn" id="1_bkeis"]
+[ext_resource type="PackedScene" uid="uid://2gb6hwrt44or" path="res://Scenes/Player/player.tscn" id="1_bkeis"]
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_hp48o"]
 [ext_resource type="Texture2D" uid="uid://dio21c7bk7t3s" path="res://Assets/Sprites/UI/progress-bar-background.png" id="2_lopnh"]
 [ext_resource type="Texture2D" uid="uid://jh2pcjh3inhr" path="res://Assets/Sprites/Objects/all_canopies.png" id="3_bhtnl"]
@@ -12,8 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://dkor1v7utrrmy" path="res://Assets/Sprites/UI/health-bar.png" id="5_r86ds"]
 [ext_resource type="Texture2D" uid="uid://26kn5ispvnl8" path="res://Assets/Sprites/Objects/all_trunks.png" id="6_4jlkn"]
 [ext_resource type="Script" path="res://Scripts/objects/objects_manager.gd" id="6_8i54v"]
-[ext_resource type="PackedScene" uid="uid://cn2lf30dpnil1" path="res://Scenes/sword_damage.tscn" id="10_q8bj4"]
-[ext_resource type="PackedScene" uid="uid://bs67qbrmasgj" path="res://Scenes/punch_damage.tscn" id="11_ltyr4"]
+[ext_resource type="PackedScene" uid="uid://cn2lf30dpnil1" path="res://Scenes/Player/sword_damage.tscn" id="10_q8bj4"]
+[ext_resource type="PackedScene" uid="uid://bs67qbrmasgj" path="res://Scenes/Player/punch_damage.tscn" id="11_ltyr4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mxxtr"]
 texture = ExtResource("1_3t5xo")
@@ -100,7 +100,7 @@ offset_left = 4.0
 offset_top = 4.0
 offset_right = 20.0
 offset_bottom = 8.0
-value = 90.0
+value = 100.0
 texture_under = ExtResource("2_lopnh")
 texture_progress = ExtResource("5_r86ds")
 

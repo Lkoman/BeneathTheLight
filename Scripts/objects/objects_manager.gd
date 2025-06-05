@@ -118,9 +118,9 @@ func mineObject():
 ## Load the scenes of the objects / items
 func loadScenes():
 	## ITEMS
-	objectToItem[2]["scene"] = preload("res://Scenes/item_wood.tscn")
-	objectToItem[10]["scene"] = preload("res://Scenes/item_redFlower.tscn")
-	objectToItem[11]["scene"] = preload("res://Scenes/item_pinkFlower.tscn")
+	objectToItem[2]["scene"] = preload("res://Scenes/World/Items/item_wood.tscn")
+	objectToItem[10]["scene"] = preload("res://Scenes/World/Items/item_redFlower.tscn")
+	objectToItem[11]["scene"] = preload("res://Scenes/World/Items/item_pinkFlower.tscn")
 
 ## Get references to other nodes and scripts
 func getRerefrences():

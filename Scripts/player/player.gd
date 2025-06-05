@@ -28,8 +28,8 @@ var in_attack := false
 var weapon :String
 var damageArea :Node
 var all_weapons = {
-	"sword": {"staminaCost": 15},
-	"punch": {"staminaCost": 10},
+	"sword": {"staminaCost": 15, "attackDamage": 20,},
+	"punch": {"staminaCost": 10, "attackDamage": 5,},
 }
 
 ## SPEED
@@ -54,6 +54,15 @@ var stamina:
 var sprintStaminaCost := 10.0 ## per frame
 var dashStaminaCost := 18.0 ## per dash
 var staminaRegeneration := 15.0 ## per frame
+
+## HEALTH
+var _health := 100.0
+
+var health:
+	get:
+		return _health
+	set(value):
+		_health = clamp(value, 0, 100)
 
 ## DIRECTION & ANIMATIONS
 ## last X or Y recorded, used for idle animations
@@ -81,6 +90,7 @@ func _ready() -> void:
 ## Moving and animations
 func _physics_process(delta: float) -> void:
 	stamina_bar.value = stamina
+	health_bar.value = health
 	
 	if (in_attack):
 		return
