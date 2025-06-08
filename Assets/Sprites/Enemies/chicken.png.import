@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x114fyvyurit"
-path="res://.godot/imported/10_redFlower_item.png-970af3dde8013171661d24c3839d5b4e.ctex"
+uid="uid://burcbmdcn3mem"
+path="res://.godot/imported/chicken.png-9125d5e909b4813ab8528f5f1572accc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Items/10_redFlower_item.png"
-dest_files=["res://.godot/imported/10_redFlower_item.png-970af3dde8013171661d24c3839d5b4e.ctex"]
+source_file="res://Assets/Sprites/Enemies/chicken.png"
+dest_files=["res://.godot/imported/chicken.png-9125d5e909b4813ab8528f5f1572accc.ctex"]
 
 [params]
 

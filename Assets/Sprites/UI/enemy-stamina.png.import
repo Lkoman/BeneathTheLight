@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r17mcg2j8exh"
-path="res://.godot/imported/11_pinkFlower_item.png-4668b3d9db3e1bf417da30e4642a2255.ctex"
+uid="uid://ehgt0c02q6ov"
+path="res://.godot/imported/enemy-stamina.png-a1c57dfe9e83f24db3a9a78b4720e5d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Items/11_pinkFlower_item.png"
-dest_files=["res://.godot/imported/11_pinkFlower_item.png-4668b3d9db3e1bf417da30e4642a2255.ctex"]
+source_file="res://Assets/Sprites/UI/enemy-stamina.png"
+dest_files=["res://.godot/imported/enemy-stamina.png-a1c57dfe9e83f24db3a9a78b4720e5d3.ctex"]
 
 [params]
 

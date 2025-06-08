@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d1mfsxksg1d4t"]
 
-[ext_resource type="Texture2D" uid="uid://r17mcg2j8exh" path="res://Assets/Sprites/Items/11_pinkFlower_item.png" id="1_omnyj"]
+[ext_resource type="Texture2D" uid="uid://r17mcg2j8exh" path="res://Assets/Sprites/Items/11_item.png" id="1_omnyj"]
 [ext_resource type="Script" path="res://Scripts/objects/item_automatic_pickup.gd" id="2_sc4jo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c4qjv"]

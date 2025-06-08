@@ -12,10 +12,9 @@ extends CharacterBody2D
 ## REFERENCES
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var object_manager: TileMapLayer = $"../ObjectsTiles"
-@onready var sword_damage: Area2D = $sword_damage
-@onready var punch_damage: Area2D = $punch_damage
-@onready var stamina_bar: TextureProgressBar = $"../CanvasLayer/Stamina Bar"
-@onready var health_bar: TextureProgressBar = $"../CanvasLayer/Health Bar"
+#@onready var sword_damage: Area2D = $sword_damage
+@onready var stamina_bar: TextureProgressBar = $"../UI/Stamina Bar"
+@onready var health_bar: TextureProgressBar = $"../UI/Health Bar"
 
 var player_interactions
 
@@ -28,32 +27,32 @@ var in_attack := false
 var weapon :String
 var damageArea :Node
 var all_weapons = {
-	"sword": {"staminaCost": 15, "attackDamage": 20,},
 	"punch": {"staminaCost": 10, "attackDamage": 5,},
+	"sword": {"staminaCost": 10, "attackDamage": 15,},
 }
 
 ## SPEED
 var speed := 60.0
+
 var sprint := false
 var sprintAvailable := true
+var sprintStaminaCost := 10.0 ## per frame
 
 ## DASH
 var dash := false
 var dashAvailable := true
 var dashTimer: Timer ## timer for the dash to complete
+var dashStaminaCost := 18.0 ## per dash
 
 ## STAMINA
 var _stamina := 100.0
+var stamina_regeneration := 15.0 ## per frame
 
 var stamina:
 	get:
 		return _stamina
 	set(value):
 		_stamina = clamp(value, 0, 100)
-
-var sprintStaminaCost := 10.0 ## per frame
-var dashStaminaCost := 18.0 ## per dash
-var staminaRegeneration := 15.0 ## per frame
 
 ## HEALTH
 var _health := 100.0
@@ -115,12 +114,15 @@ func _physics_process(delta: float) -> void:
 				idleAnimation()
 	
 	## STAMINA
-	if (sprint):
+	if (sprint && movement):
 		stamina -= sprintStaminaCost * delta
+		if (dash):
+			animated_sprite.speed_scale = 1.0
+		else:
+			animated_sprite.speed_scale = 2.0
 	else:
-		stamina += staminaRegeneration * delta
-	
-	# print("stamina: ", stamina)
+		stamina += stamina_regeneration * delta
+		animated_sprite.speed_scale = 1.0
 	
 	## MOVE
 	velocity = Vector2(directionX, directionY).normalized() * speed
@@ -205,6 +207,40 @@ func _on_animation_finished():
 	player_interactions.disable_damage_area(damageArea)
 
 ############
+## MINING ##
+############
+
+func damage_hit_object(tilemap):
+	var shape = damageArea.get_node("CollisionShape2D").shape
+	var global_transform = damageArea.get_global_transform()
+
+	var area_pos = damageArea.global_position
+	var tile_size = tilemap.tile_set.tile_size  # e.g., Vector2(16, 16)
+
+	# Get the bounding box of the shape
+	var rect : Rect2
+	if shape is CircleShape2D:
+		var r = shape.radius
+		rect = Rect2(area_pos - Vector2(r, r), Vector2(r * 2, r * 2))
+	elif shape is RectangleShape2D:
+		var half_size = shape.size * 0.5
+		rect = Rect2(area_pos - half_size, shape.size)
+	else:
+		print("Unsupported shape for overlap check")
+		return
+
+	# Convert world bounds to tilemap coordinates
+	var top_left = tilemap.local_to_map(rect.position)
+	var bottom_right = tilemap.local_to_map(rect.position + rect.size)
+
+	for x in range(top_left.x, bottom_right.x + 1):
+		for y in range(top_left.y, bottom_right.y + 1):
+			var coords = Vector2i(x, y)
+			if tilemap.get_cell_tile_data(coords):
+				object_manager.mine_object(coords)
+
+
+############
 ## ATTACK ##
 ############
 
@@ -213,26 +249,32 @@ func attacking():
 		stamina -= all_weapons[weapon]["staminaCost"]
 		player_interactions.attack()
 		var direction = player_interactions.get_attack_direction()
+		var weapon_name := ""
+		
+		if (weapon == "punch"):
+			weapon_name = weapon + "_"
 		
 		match direction:
 			"down":
-				animated_sprite.play(weapon + "_attack")
+				animated_sprite.play(weapon_name + "attack")
 			"up":
-				animated_sprite.play(weapon + "_attack-back")
+				animated_sprite.play(weapon_name + "attack-back")
 			"right":
-				animated_sprite.play(weapon + "_attack-side")
+				animated_sprite.play(weapon_name + "attack-side")
 			"left":
 				animated_sprite.flip_h = true
-				animated_sprite.play(weapon + "_attack-side")
+				animated_sprite.play(weapon_name + "attack-side")
 		
 		player_interactions.enable_damage_area(damageArea, direction)
 		in_attack = true
 		return 1
-	return 0
+	else:
+		attack = false
+		return 0
 
 func equip_new_weapon(new_weapon):
 	weapon = new_weapon
-	damageArea = get_node(new_weapon + "_damage")
+	damageArea = get_node(new_weapon)
 	
 	player_interactions.disable_all_damage_areas()
 

@@ -9,6 +9,7 @@ extends Node
 
 ## REREFENCES
 var obj_manager: Node ## get instance of object_manager from object_manager.gd
+var basic_inventory
 
 ## Inventory dictionary of dictionaries
 	## ItemID == objectID in itemToObject dictionary in file object_manager.gd
@@ -55,19 +56,26 @@ func addItemToInventory(itemID, numOfItems):
 		## Create a new stack with nextStack number of items
 		createNewItemStack(itemID, nextStack)
 	
-	print(INVENTORY);
+	draw_basic_inventory()
 
 
 func createNewItem(itemID, numOfItems):
 	INVENTORY[itemID] = {}
 	INVENTORY[itemID]["stacks"] = []
-	# INVENTORY[itemID]["scene"] = scene
 	
 	## Create new item stack
 	createNewItemStack(itemID, numOfItems)
 	
-	print(INVENTORY);
+	draw_basic_inventory()
 
+func draw_basic_inventory():
+	var i := 0
+	for itemID in INVENTORY:
+		var item_path := "res://Assets/Sprites/Items/%s_item.png" % itemID
+		for num_of_items in INVENTORY[itemID]["stacks"]:
+			basic_inventory.get_child(i).get_child(0).texture = load(item_path)
+			basic_inventory.get_child(i).get_child(1).text = str(num_of_items)
+			i += 1
 
 ## Create new stack of items
 func createNewItemStack(itemID, numOfItems):

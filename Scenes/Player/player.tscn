@@ -1,10 +1,13 @@
-[gd_scene load_steps=64 format=3 uid="uid://2gb6hwrt44or"]
+[gd_scene load_steps=85 format=3 uid="uid://2gb6hwrt44or"]
 
+[ext_resource type="Texture2D" uid="uid://boqdvhjv6bcah" path="res://Assets/Sprites/Player/roll.png" id="1_6yjpi"]
 [ext_resource type="Texture2D" uid="uid://b1ebrdde5u0gb" path="res://Assets/Sprites/Player/dude-idle.png" id="1_ixbca"]
-[ext_resource type="Texture2D" uid="uid://b7lcnd00v3e1k" path="res://Assets/Sprites/Player/dash.png" id="1_p1gi5"]
+[ext_resource type="Texture2D" uid="uid://c33a8aq4v5e8b" path="res://Assets/Sprites/Player/attack.png" id="1_krg1t"]
 [ext_resource type="Texture2D" uid="uid://ca5x2q68asl1" path="res://Assets/Sprites/Player/idle-side.png" id="2_ilml1"]
+[ext_resource type="Texture2D" uid="uid://clt2a1ljymfti" path="res://Assets/Sprites/Player/attack-back.png" id="2_lobp3"]
 [ext_resource type="Texture2D" uid="uid://bow4a25qj3e81" path="res://Assets/Sprites/Player/dude-walking.png" id="2_ma7cb"]
 [ext_resource type="Texture2D" uid="uid://dc6mqva0dfjgh" path="res://Assets/Sprites/Player/idle-back.png" id="2_q7jvs"]
+[ext_resource type="Texture2D" uid="uid://c3h8lcybcuyc" path="res://Assets/Sprites/Player/attack-side.png" id="3_jnklg"]
 [ext_resource type="Texture2D" uid="uid://x1o6u5xmv5el" path="res://Assets/Sprites/Player/dude-walking_back.png" id="4_dvdlk"]
 [ext_resource type="Texture2D" uid="uid://cavyfgvkne5vn" path="res://Assets/Sprites/Player/dude-mining.png" id="4_s6kub"]
 [ext_resource type="Texture2D" uid="uid://bjmvswb5ewuv2" path="res://Assets/Sprites/Player/walking-side.png" id="5_y55rf"]
@@ -14,10 +17,72 @@
 [ext_resource type="Texture2D" uid="uid://c8w7r4vqpihhg" path="res://Assets/Sprites/Player/sword_attack.png" id="9_qsl6o"]
 [ext_resource type="Texture2D" uid="uid://ccof06lvj6ll2" path="res://Assets/Sprites/Player/sword_attack-back.png" id="10_a8fnx"]
 [ext_resource type="Texture2D" uid="uid://b73avrl618gwg" path="res://Assets/Sprites/Player/sword_attack-side.png" id="11_cpogk"]
+[ext_resource type="PackedScene" uid="uid://bs67qbrmasgj" path="res://Scenes/Player/punch_damage.tscn" id="15_6dxnc"]
+[ext_resource type="PackedScene" uid="uid://fqww5lqw5l6n" path="res://Scenes/Player/Weapons/sword.tscn" id="16_6d1t3"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1yb1j"]
-atlas = ExtResource("1_p1gi5")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ichae"]
+atlas = ExtResource("1_krg1t")
 region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjaxf"]
+atlas = ExtResource("1_krg1t")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjwmb"]
+atlas = ExtResource("1_krg1t")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpxsg"]
+atlas = ExtResource("1_krg1t")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kh85m"]
+atlas = ExtResource("2_lobp3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr1lf"]
+atlas = ExtResource("2_lobp3")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfc4b"]
+atlas = ExtResource("2_lobp3")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vh71i"]
+atlas = ExtResource("2_lobp3")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m57rx"]
+atlas = ExtResource("3_jnklg")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jimli"]
+atlas = ExtResource("3_jnklg")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ugqm"]
+atlas = ExtResource("3_jnklg")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dl0yq"]
+atlas = ExtResource("3_jnklg")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fd4up"]
+atlas = ExtResource("1_6yjpi")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7mca"]
+atlas = ExtResource("1_6yjpi")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvcw5"]
+atlas = ExtResource("1_6yjpi")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2kpp"]
+atlas = ExtResource("1_6yjpi")
+region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qabgc"]
 atlas = ExtResource("1_ixbca")
@@ -207,11 +272,71 @@ region = Rect2(48, 0, 16, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1yb1j")
+"texture": SubResource("AtlasTexture_ichae")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjaxf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjwmb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpxsg")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kh85m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mr1lf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bfc4b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vh71i")
+}],
+"loop": false,
+"name": &"attack-back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m57rx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jimli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ugqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0yq")
+}],
+"loop": false,
+"name": &"attack-side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fd4up")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7mca")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvcw5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2kpp")
 }],
 "loop": true,
 "name": &"dash",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -418,21 +543,37 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3c1un"]
-radius = 3.0
+radius = 2.0
 height = 6.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iuw1p"]
+size = Vector2(4, 15)
 
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
-collision_mask = 2
+collision_layer = 2
+collision_mask = 21
 metadata/_edit_group_ = true
+
+[node name="sword" parent="." instance=ExtResource("16_6d1t3")]
+
+[node name="punch" parent="." instance=ExtResource("15_6dxnc")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 5)
 sprite_frames = SubResource("SpriteFrames_v0kla")
-animation = &"punch_attack"
+animation = &"punch_attack-back"
 autoplay = "idle"
 offset = Vector2(0, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_3c1un")
+
+[node name="PlayerHitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitBox"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_iuw1p")

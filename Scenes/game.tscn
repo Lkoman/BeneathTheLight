@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://cx700hd8idfg3"]
+[gd_scene load_steps=21 format=4 uid="uid://cx700hd8idfg3"]
 
 [ext_resource type="Texture2D" uid="uid://ctl33fmgd8o48" path="res://Assets/Sprites/World/tileSet.png" id="1_3t5xo"]
 [ext_resource type="PackedScene" uid="uid://2gb6hwrt44or" path="res://Scenes/Player/player.tscn" id="1_bkeis"]
@@ -8,12 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://bb616q0fsw7qr" path="res://Assets/Sprites/UI/stamina-bar.png" id="3_vo5gs"]
 [ext_resource type="Texture2D" uid="uid://dit07busvn5r0" path="res://Assets/Sprites/Objects/redFlower.png" id="4_jrc7u"]
 [ext_resource type="Script" path="res://Scripts/player/player.gd" id="4_qdgwp"]
+[ext_resource type="PackedScene" uid="uid://ctfjx2she12ek" path="res://Scenes/UI/basic_inventory.tscn" id="5_61lft"]
 [ext_resource type="Texture2D" uid="uid://b2ogoiwfx3th8" path="res://Assets/Sprites/Objects/flower.png" id="5_pdlkb"]
 [ext_resource type="Texture2D" uid="uid://dkor1v7utrrmy" path="res://Assets/Sprites/UI/health-bar.png" id="5_r86ds"]
 [ext_resource type="Texture2D" uid="uid://26kn5ispvnl8" path="res://Assets/Sprites/Objects/all_trunks.png" id="6_4jlkn"]
 [ext_resource type="Script" path="res://Scripts/objects/objects_manager.gd" id="6_8i54v"]
-[ext_resource type="PackedScene" uid="uid://cn2lf30dpnil1" path="res://Scenes/Player/sword_damage.tscn" id="10_q8bj4"]
-[ext_resource type="PackedScene" uid="uid://bs67qbrmasgj" path="res://Scenes/Player/punch_damage.tscn" id="11_ltyr4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mxxtr"]
 texture = ExtResource("1_3t5xo")
@@ -48,32 +47,32 @@ resource_name = "flower red"
 texture = ExtResource("4_jrc7u")
 texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
-0:0/0/y_sort_origin = -4
+0:0/0/y_sort_origin = 3
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pf177"]
 resource_name = "flower pink"
 texture = ExtResource("5_pdlkb")
 texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
-0:0/0/y_sort_origin = -4
+0:0/0/y_sort_origin = 3
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0vjcd"]
 resource_name = "trunk"
 texture = ExtResource("6_4jlkn")
 1:0/0 = 0
-1:0/0/y_sort_origin = 15
+1:0/0/y_sort_origin = 30
 0:1/0 = 0
-0:1/0/y_sort_origin = 15
+0:1/0/y_sort_origin = 30
 1:1/0 = 0
-1:1/0/y_sort_origin = 15
+1:1/0/y_sort_origin = 30
 0:2/0 = 0
-0:2/0/y_sort_origin = 15
+0:2/0/y_sort_origin = 30
 1:2/0 = 0
 1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-2.90625, 0.625, 3.09375, 0.625, 5.15625, 1.875, 4.53125, 6, -3.84375, 6, -4.90625, 2.375)
 0:3/0 = 0
-0:3/0/y_sort_origin = 15
+0:3/0/y_sort_origin = 30
 0:4/0 = 0
-0:4/0/y_sort_origin = 15
+0:4/0/y_sort_origin = 30
 1:3/size_in_atlas = Vector2i(2, 2)
 1:3/0 = 0
 1:3/0/y_sort_origin = -3
@@ -90,29 +89,30 @@ sources/2 = SubResource("TileSetAtlasSource_0vjcd")
 y_sort_enabled = true
 script = ExtResource("1_hp48o")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-scale = Vector2(8, 8)
-transform = Transform2D(8, 0, 0, 8, 0, 0)
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Health Bar" type="TextureProgressBar" parent="CanvasLayer"]
+[node name="Health Bar" type="TextureProgressBar" parent="UI"]
 physics_interpolation_mode = 0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 20.0
-offset_bottom = 8.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 24.0
+offset_bottom = 16.0
 value = 100.0
 texture_under = ExtResource("2_lopnh")
 texture_progress = ExtResource("5_r86ds")
 
-[node name="Stamina Bar" type="TextureProgressBar" parent="CanvasLayer"]
+[node name="Stamina Bar" type="TextureProgressBar" parent="UI"]
 physics_interpolation_mode = 0
-offset_left = 4.0
-offset_top = 12.0
-offset_right = 20.0
-offset_bottom = 16.0
-value = 90.0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 24.0
+offset_bottom = 24.0
+value = 100.0
 texture_under = ExtResource("2_lopnh")
 texture_progress = ExtResource("3_vo5gs")
+
+[node name="Basic_Inventory" parent="UI" instance=ExtResource("5_61lft")]
+scale = Vector2(1, 1)
 
 [node name="WorldTiles" type="TileMapLayer" parent="."]
 z_index = -1
@@ -121,19 +121,12 @@ tile_set = SubResource("TileSet_rpfad")
 
 [node name="ObjectsTiles" type="TileMapLayer" parent="."]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAD2/wsAAQADAAAAAAD1/wQACgAAAAAAAADv//z/CgAAAAAAAADz//n/CgAAAAAAAAD3//n/CgAAAAAAAAD0//z/CgAAAAAAAAD5//X/CgAAAAAAAADy//P/CgAAAAAAAAD9//T/CgAAAAAAAAD7/wIACgAAAAAAAAD//wAACgAAAAAAAAACAPz/CwAAAAAAAAAJAPv/CwAAAAAAAAD3/wIACwAAAAAAAAD0/wkACwAAAAAAAADu/w4ACwAAAAAAAAD2/woACwAAAAAAAAD4/wgACwAAAAAAAAD7/wUACwAAAAAAAAAFAAAACwAAAAAAAAAOAP//CwAAAAAAAAAOAAQACwAAAAAAAAAKAAEACwAAAAAAAAAHAAYACwAAAAAAAAAGAP3/CwAAAAAAAAD1/wEAAgABAAMAAAD///v/AgABAAMAAAAIAAEAAgABAAMAAAD5/wYAAgABAAMAABD4//v/AgABAAMAABAGAPj/AgABAAMAABAUAAQAAgABAAMAABD2/w8AAgABAAMAABDv/woAAgABAAMAABDu/wYAAgABAAMAAADv/wkAAgAAAAIAAAD4//r/AgAAAAEAAAD///r/AgAAAAMAAAAIAAAAAgAAAAQAAAAIAP//AgAAAAEAAAAUAAMAAgAAAAIAAAD1/wAAAgAAAAMAAAD1////AgAAAAEAAAD5/wUAAgAAAAQAAADu/wUAAgAAAAIAABDu/wQAAQADAAIAABDv/wgAAQADAAIAABD5/wQAAQADAAIAABD1//7/AQADAAAAAAD4//n/AQADAAAAAAD///n/AQADAAIAAAAIAP7/AQADAAAAAAAGAPf/AgAAAAEAABAGAPb/AQADAAAAAAAUAAIAAQADAAAAABD8/wMAAgABAAMAAAD5/wAAAgABAAMAAAABAP3/AgABAAMAABD5//z/AgABAAMAABD5/wMAAgABAAMAABD5/wIAAgAAAAEAAAD5////AgAAAAIAAAD5//v/AgAAAAIAAAD8/wIAAgAAAAIAABD8/wEAAQADAAAAAAD5//7/AQADAAIAAAD5/wEAAQADAAAAABABAPz/AgAAAAQAAAABAPv/AQADAAIAAAD5//r/AQADAAAAABD2/w4AAgAAAAMAABD2/w0AAgAAAAMAAAD2/wwAAgAAAAEAAAD8/wwAAgABAAIAAAD9/woAAgABAAIAAAD7/wkAAgABAAIAAAD+/wcAAgABAAIAAAAEAAUAAgABAAIAAAABAAUAAgABAAIAAAAJAAgAAgABAAIAAAAMAAYAAgABAAIAAAAOAAkAAgABAAIAAAAIAAUAAgABAAIAAAD+/wYAAgABAAEAAAAEAAQAAgABAAEAAAAMAAUAAgABAAEAAAAJAAcAAgABAAEAAAD8/wsAAgABAAAAAAD7/wgAAgABAAAAAAD+/wUAAgABAAAAAAABAAQAAgABAAAAAAD8/woAAgABAAAAABD9/wkAAgABAAAAABD+/wQAAgABAAAAABAEAAMAAgABAAAAABAIAAQAAgABAAAAABAJAAYAAgABAAAAABAMAAQAAgABAAAAABAOAAgAAgABAAAAABD7/wcAAQADAAQAAAABAAMAAQADAAQAAAAIAAMAAQADAAQAAAAJAAUAAQADAAQAABAOAAcAAQADAAQAAAAMAAMAAQADAAQAABAEAAIAAQADAAQAABD+/wMAAQADAAQAABD9/wgAAQADAAQAABD8/wkAAQADAAQAAAA=")
+tile_map_data = PackedByteArray("AAD2/wsAAQADAAAAAAD1/wQACgAAAAAAAADv//z/CgAAAAAAAADz//n/CgAAAAAAAAD3//n/CgAAAAAAAAD0//z/CgAAAAAAAAD5//X/CgAAAAAAAADy//P/CgAAAAAAAAD9//T/CgAAAAAAAAD7/wIACgAAAAAAAAD//wAACgAAAAAAAAACAPz/CwAAAAAAAAAJAPv/CwAAAAAAAAD3/wIACwAAAAAAAAD0/wkACwAAAAAAAADu/w4ACwAAAAAAAAD2/woACwAAAAAAAAD4/wgACwAAAAAAAAD7/wUACwAAAAAAAAAFAAAACwAAAAAAAAAOAP//CwAAAAAAAAAOAAQACwAAAAAAAAAKAAEACwAAAAAAAAAHAAYACwAAAAAAAAAGAP3/CwAAAAAAAAD1/wEAAgABAAMAAAD///v/AgABAAMAAAAIAAEAAgABAAMAAAD5/wYAAgABAAMAABD4//v/AgABAAMAABAGAPj/AgABAAMAABAUAAQAAgABAAMAABD2/w8AAgABAAMAABDv/woAAgABAAMAABDu/wYAAgABAAMAAADv/wkAAgAAAAIAAAD4//r/AgAAAAEAAAD///r/AgAAAAMAAAAIAAAAAgAAAAQAAAAIAP//AgAAAAEAAAAUAAMAAgAAAAIAAAD1/wAAAgAAAAMAAAD1////AgAAAAEAAAD5/wUAAgAAAAQAAADu/wUAAgAAAAIAABDu/wQAAQADAAIAABDv/wgAAQADAAIAABD5/wQAAQADAAIAABD1//7/AQADAAAAAAD4//n/AQADAAAAAAD///n/AQADAAIAAAAIAP7/AQADAAAAAAAGAPf/AgAAAAEAABAGAPb/AQADAAAAAAAUAAIAAQADAAAAABD8/wMAAgABAAMAAAD5/wAAAgABAAMAAAABAP3/AgABAAMAABD5//z/AgABAAMAABD5/wMAAgABAAMAABD5/wIAAgAAAAEAAAD5////AgAAAAIAAAD5//v/AgAAAAIAAAD8/wIAAgAAAAIAABD8/wEAAQADAAAAAAD5//7/AQADAAIAAAD5/wEAAQADAAAAABABAPz/AgAAAAQAAAABAPv/AQADAAIAAAD5//r/AQADAAAAABD2/w4AAgAAAAMAABD2/w0AAgAAAAMAAAD2/wwAAgAAAAEAAAD8/wwAAgABAAIAAAD9/woAAgABAAIAAAD7/wkAAgABAAIAAAD+/wcAAgABAAIAAAAEAAUAAgABAAIAAAABAAUAAgABAAIAAAAJAAgAAgABAAIAAAAMAAYAAgABAAIAAAAOAAkAAgABAAIAAAAIAAUAAgABAAIAAAD+/wYAAgABAAEAAAAEAAQAAgABAAEAAAAMAAUAAgABAAEAAAAJAAcAAgABAAEAAAD8/wsAAgABAAAAAAD7/wgAAgABAAAAAAD+/wUAAgABAAAAAAABAAQAAgABAAAAAAD8/woAAgABAAAAABD9/wkAAgABAAAAABD+/wQAAgABAAAAABAEAAMAAgABAAAAABAIAAQAAgABAAAAABAJAAYAAgABAAAAABAMAAQAAgABAAAAABAOAAgAAgABAAAAABD7/wcAAQADAAQAAAABAAMAAQADAAQAAAAIAAMAAQADAAQAAAAJAAUAAQADAAQAABAOAAcAAQADAAQAAAAMAAMAAQADAAQAABAEAAIAAQADAAQAABD+/wMAAQADAAQAABD9/wgAAQADAAQAABD8/wkAAQADAAQAAADw//f/AgABAAMAAAD5//H/AgABAAMAAADu/+//AgABAAMAAAABAPb/AgABAAMAAAD//+z/AgABAAMAAADw//7/AgABAAMAAAD8//f/AgABAAMAABD2/+z/AgABAAMAABDz//P/AgABAAMAABD2//j/AgABAAMAABDq//P/AgABAAMAABD2//f/AgAAAAIAAADz//L/AgAAAAIAAADw//b/AgAAAAIAAADw//3/AgAAAAIAABD2/+v/AgAAAAIAABD5//D/AgAAAAQAAAD//+v/AgAAAAQAAADu/+7/AgAAAAQAAAD8//b/AgAAAAMAAADq//L/AgAAAAMAAAD5/+//AgAAAAMAAAABAPX/AgAAAAMAAAD//+r/AgAAAAMAABD8//X/AgAAAAEAAADu/+3/AgAAAAEAAADq//H/AgAAAAEAAAABAPT/AgAAAAEAAAD5/+7/AgAAAAEAAAD2/+r/AQADAAAAAAD8//T/AQADAAAAAAD2//b/AQADAAAAABDq//D/AQADAAAAABDw//z/AQADAAIAAADw//X/AQADAAIAABDu/+z/AQADAAIAABDz//H/AQADAAAAAAD5/+3/AQADAAAAAAABAPP/AQADAAAAABD//+n/AQADAAAAABDu//P/CgAAAAAAAAD8/+3/CgAAAAAAAAAAAPD/CgAAAAAAABDy/+//CgAAAAAAABDu//f/CgAAAAAAABDt//3/CgAAAAAAABAAABYAAgABAAIAAAAJABcAAgABAAIAAAAOABIAAgABAAIAAAAPAAwAAgABAAIAAAD6/xEAAgABAAIAAAAAABUAAgABAAEAAAAAABQAAgABAAEAAAAJABYAAgABAAEAAAAPAAsAAgABAAAAAAAOABEAAgABAAAAABD6/xAAAgABAAAAABAAABMAAgABAAAAABAOABAAAgABAAEAAAAAABIAAQADAAQAAAD6/w8AAQADAAQAAAAJABUAAQADAAQAAAAOAA8AAQADAAQAABAPAAoAAQADAAQAABA=")
 tile_set = SubResource("TileSet_1fhay")
 script = ExtResource("6_8i54v")
 
 [node name="Player" parent="." instance=ExtResource("1_bkeis")]
-collision_layer = 2
-collision_mask = 5
 script = ExtResource("4_qdgwp")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 scale = Vector2(1, 0.985417)
-zoom = Vector2(7, 7)
-
-[node name="sword_damage" parent="Player" instance=ExtResource("10_q8bj4")]
-
-[node name="punch_damage" parent="Player" instance=ExtResource("11_ltyr4")]

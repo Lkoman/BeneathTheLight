@@ -13,6 +13,7 @@ extends TileMapLayer
 ## REFERENCES to other nodes and scripts used in this script
 @onready var playerNode: CharacterBody2D = $"../Player"
 @onready var camera: Camera2D = $"../Player/Camera2D"
+@onready var basic_inventory: HBoxContainer = $"../UI/Basic_Inventory"
 # var seed_manager: Node
 var inventory_manager: Node
 var player_interactions: Node
@@ -23,7 +24,6 @@ var player_interactions: Node
 
 ## World
 var mouseScreenCoords: Vector2 ## save the coordinates of the mouse
-var mapLayerCoords: Vector2 ## tileMapLayer coordinates
 
 ## Player
 var playerCoordsTileMapLayer: Vector2 ## position of player on TileMapLayer
@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 ## On input check for object interactions
 func _input(event):
 	if Input.is_action_just_pressed("mine_object") && !playerNode.attack:
-		mineObject()
+		playerNode.damage_hit_object(self)
 		playerNode.attack = true
 	if Input.is_action_just_pressed("interact_with_object"):
 		interact = true
@@ -96,21 +96,6 @@ func pickUp(itemID):
 	inventory_manager.addItemToInventory(itemID, 1)
 	return true
 
-func mineObject():
-	## Convert screen coordinates to tileMapLayer coordinates
-	mapLayerCoords = local_to_map(mouseScreenCoords)
-	
-	## If there is an object on the mapCoordinates
-	if (get_cell_source_id(mapLayerCoords) != -1):
-		## get player position on tileMapLayer
-		playerCoordsTileMapLayer = local_to_map(playerNode.get_position())
-		
-		if (playerCloseToObject(playerCoordsTileMapLayer, mapLayerCoords)):
-			miningObjectID = get_cell_source_id(mapLayerCoords)
-			if (objectToItem.has(miningObjectID)):
-				miningLogic()
-
-
 ########################################
 ## Necessary priprave za začetek igre ##
 ########################################
@@ -130,6 +115,7 @@ func getRerefrences():
 	
 	## Send the instance of THIS script to inventory_manager.gd
 	inventory_manager.obj_manager = self
+	inventory_manager.basic_inventory = basic_inventory
 	playerNode.player_interactions = player_interactions
 	player_interactions.player = playerNode
 	player_interactions.obj_manager = self
@@ -138,16 +124,17 @@ func getRerefrences():
 ## LOGIC ##
 ###########
 
-func playerCloseToObject(playerCoords, objectCoords):
-	return ((objectCoords.x <= playerCoords.x + 3 && objectCoords.x >= playerCoords.x - 3) && 
-			(objectCoords.y <= playerCoords.y + 3 && objectCoords.y >= playerCoords.y - 3))
-
-func miningLogic():
+func mine_object(object_map_layer_coords):
+	miningObjectID = get_cell_source_id(object_map_layer_coords)
+	
+	if (!objectToItem.has(miningObjectID)):
+		return
+		
 	######################################################################
 	## If the object exists (can drop an item), continue with mining it ##
 	
 	## The data I need about the cell/object being mined
-	miningObjectCell = mapLayerCoords ## tilemapLayer coordinates of the object
+	miningObjectCell = object_map_layer_coords ## tilemapLayer coordinates of the object
 	miningObjectCoordinates = mouseScreenCoords ## world coordinates of the object
 	
 	## If an object has a random range, set it, otherwise leave at 1
@@ -173,18 +160,18 @@ func miningLogic():
 	## Objects can be composed of multiple tiles ##
 	
 	## If the tile above it is the same object
-	if (get_cell_source_id(Vector2(mapLayerCoords.x, mapLayerCoords.y - 1)) == miningObjectID):
+	if (get_cell_source_id(Vector2(object_map_layer_coords.x, object_map_layer_coords.y - 1)) == miningObjectID):
 		## then change/set the needed data for that tile (-1 and -16)
 		miningObjectCoordinates.y = miningObjectCoordinates.y - 16;
-		miningObjectCell = Vector2(mapLayerCoords.x, mapLayerCoords.y - 1)
-		mapLayerCoords.y = mapLayerCoords.y - 1
+		miningObjectCell = Vector2(object_map_layer_coords.x, object_map_layer_coords.y - 1)
+		object_map_layer_coords.y = object_map_layer_coords.y - 1
 		## and call the function again - recursive
-		miningLogic()
+		mine_object(object_map_layer_coords)
 	
 	## Else if the tile above it is the end of the object, just delete it
 	elif (objectToItem[miningObjectID].has("endID") && 
-		  get_cell_source_id(Vector2(mapLayerCoords.x, mapLayerCoords.y - 1)) == objectToItem[miningObjectID]["endID"]):
-		erase_cell(Vector2(mapLayerCoords.x, mapLayerCoords.y - 1))
+		  get_cell_source_id(Vector2(object_map_layer_coords.x, object_map_layer_coords.y - 1)) == objectToItem[miningObjectID]["endID"]):
+		erase_cell(Vector2(object_map_layer_coords.x, object_map_layer_coords.y - 1))
 
 
 ## Creates an instance of an object and drops it on the floor

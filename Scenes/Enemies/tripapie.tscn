@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://drqq5fx0xxttk"]
+[gd_scene load_steps=12 format=3 uid="uid://drqq5fx0xxttk"]
 
 [ext_resource type="Script" path="res://Scripts/enemies/tripapie.gd" id="1_8es5j"]
 [ext_resource type="Texture2D" uid="uid://c2ck5r4kdh7kd" path="res://Assets/Sprites/Enemies/tripapie.png" id="1_twbt1"]
@@ -45,9 +45,12 @@ animations = [{
 radius = 6.0
 height = 18.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_i544q"]
+radius = 53.0377
+
 [node name="Tripapie" type="Area2D"]
-collision_layer = 8
-collision_mask = 10
+collision_layer = 16
+collision_mask = 22
 script = ExtResource("1_8es5j")
 
 [node name="Health" type="TextureProgressBar" parent="."]
@@ -66,9 +69,14 @@ animation = &"idle"
 autoplay = "idle"
 offset = Vector2(0, -6)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
 shape = SubResource("CapsuleShape2D_y1vaq")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="FieldOfView" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_i544q")
+one_way_collision_margin = 0.0
+
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]

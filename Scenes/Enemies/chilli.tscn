@@ -1,74 +1,148 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxcxnhrodpj6j"]
+[gd_scene load_steps=19 format=3 uid="uid://bnt8srtkqk4rd"]
 
-[ext_resource type="Script" path="res://Scenes/Enemies/chilli.gd" id="1_g4qo7"]
+[ext_resource type="Script" path="res://Scripts/enemies/chilli.gd" id="1_g4qo7"]
 [ext_resource type="Texture2D" uid="uid://cvh1344d44xtt" path="res://Assets/Sprites/Enemies/chilli.png" id="1_s1nq0"]
 [ext_resource type="Texture2D" uid="uid://dwo5ayh5i2a1c" path="res://Assets/Sprites/UI/enemy-health-background.png" id="2_ko4a0"]
 [ext_resource type="Texture2D" uid="uid://dhtmsaislbjo6" path="res://Assets/Sprites/UI/enemy-health.png" id="3_ug0on"]
+[ext_resource type="Texture2D" uid="uid://ehgt0c02q6ov" path="res://Assets/Sprites/UI/enemy-stamina.png" id="4_38trh"]
+[ext_resource type="Texture2D" uid="uid://dwk83hsf5xfqi" path="res://Assets/Sprites/Enemies/chilli-attack.png" id="5_nom1r"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5gdm3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvail"]
+atlas = ExtResource("5_nom1r")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywsrw"]
+atlas = ExtResource("5_nom1r")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0t4ih"]
+atlas = ExtResource("5_nom1r")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivmp4"]
+atlas = ExtResource("5_nom1r")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p71vp"]
 atlas = ExtResource("1_s1nq0")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7r1am"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggrbj"]
 atlas = ExtResource("1_s1nq0")
 region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uk7eo"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6yvy8"]
 atlas = ExtResource("1_s1nq0")
 region = Rect2(32, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rcysm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnfiq"]
 atlas = ExtResource("1_s1nq0")
 region = Rect2(48, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_icx7i"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_bmeub"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5gdm3")
+"texture": SubResource("AtlasTexture_vvail")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7r1am")
+"texture": SubResource("AtlasTexture_ywsrw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uk7eo")
+"texture": SubResource("AtlasTexture_0t4ih")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rcysm")
+"texture": SubResource("AtlasTexture_ivmp4")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p71vp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggrbj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6yvy8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pnfiq")
 }],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y1vaq"]
-radius = 6.0
-height = 18.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sl2pr"]
+radius = 2.0
+height = 10.0
 
-[node name="Chilli" type="Area2D"]
-collision_layer = 8
-collision_mask = 10
+[sub_resource type="CircleShape2D" id="CircleShape2D_1uvrd"]
+radius = 50.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gn8xv"]
+radius = 7.0
+height = 22.0
+
+[node name="Chilli" type="CharacterBody2D"]
+z_as_relative = false
+y_sort_enabled = true
+collision_layer = 16
+collision_mask = 23
 script = ExtResource("1_g4qo7")
+metadata/_edit_vertical_guides_ = [-43.0]
 
 [node name="Health" type="TextureProgressBar" parent="."]
+z_index = 1
+z_as_relative = false
+offset_left = -4.0
+offset_top = -15.0
+offset_right = 4.0
+offset_bottom = -13.0
+texture_under = ExtResource("2_ko4a0")
+texture_progress = ExtResource("3_ug0on")
+
+[node name="Stamina" type="TextureProgressBar" parent="."]
+z_index = 1
+z_as_relative = false
 offset_left = -4.0
 offset_top = -12.0
 offset_right = 4.0
 offset_bottom = -10.0
 texture_under = ExtResource("2_ko4a0")
-texture_progress = ExtResource("3_ug0on")
+texture_progress = ExtResource("4_38trh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-y_sort_enabled = true
-position = Vector2(0, 6)
-sprite_frames = SubResource("SpriteFrames_icx7i")
-animation = &"idle"
+position = Vector2(0, 8)
+sprite_frames = SubResource("SpriteFrames_bmeub")
+animation = &"attack"
 autoplay = "idle"
-offset = Vector2(0, -6)
+frame = 1
+frame_progress = 0.476637
+offset = Vector2(0, -8)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-y_sort_enabled = true
-shape = SubResource("CapsuleShape2D_y1vaq")
+[node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_sl2pr")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="FovArea" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 22
+
+[node name="FieldOfView" type="CollisionShape2D" parent="FovArea"]
+shape = SubResource("CircleShape2D_1uvrd")
+
+[node name="EnemyHitBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 98
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="EnemyHitBox"]
+shape = SubResource("CapsuleShape2D_gn8xv")
+
+[connection signal="body_shape_entered" from="FovArea" to="." method="_on_fov_area_body_shape_entered"]
+[connection signal="body_shape_exited" from="FovArea" to="." method="_on_fov_area_body_shape_exited"]
+[connection signal="area_shape_entered" from="EnemyHitBox" to="." method="_on_hit_box_area_shape_entered"]

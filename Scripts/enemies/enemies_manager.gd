@@ -8,8 +8,9 @@ extends Node
 
 ## VARIABLES
 var enemies = {
-	"tripapie": {"hp": 80,},
-	"chilli": {"hp": 30,}
+	"Tripapie": {},
+	"Chilli": {},
+	"Chicken": {},
 }
 var tmpInstance
 
@@ -20,18 +21,23 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func die(enemy_node):
+	enemy_node.queue_free()
+
 ## Creates an instance of an object and drops it on the floor
 func create_an_enemy(enemyName, pos_x, pos_y):
-	## Call the item scene and create an instance of it
 	tmpInstance = enemies[enemyName]["scene"].instantiate()
-	## Place the instance where the object was + random nums
 	tmpInstance.set_position(Vector2(pos_x, pos_y))
+	tmpInstance.enemies_manager = self
 	
 	## Add instance to scene
 	return tmpInstance
-	print("aaaa")
+
+func new_rand_vector_around_spawn(spawn_position, offset):
+	return Vector2(randi_range(spawn_position.x - offset, spawn_position.x + offset), 
+				   randi_range(spawn_position.y - offset, spawn_position.y + offset))
 
 func loadScenes():
-	print("aaaaaaaaa")
-	enemies["tripapie"]["scene"] = preload("res://Scenes/Enemies/tripapie.tscn")
-	enemies["chilli"]["scene"] = preload("res://Scenes/Enemies/chilli.tscn")
+	enemies["Tripapie"]["scene"] = preload("res://Scenes/Enemies/tripapie.tscn")
+	enemies["Chilli"]["scene"] = preload("res://Scenes/Enemies/chilli.tscn")
+	enemies["Chicken"]["scene"] = preload("res://Scenes/Enemies/chicken.tscn")

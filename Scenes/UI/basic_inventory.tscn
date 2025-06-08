@@ -1,0 +1,140 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctfjx2she12ek"]
+
+[ext_resource type="Texture2D" uid="uid://c0vkwojmoxijm" path="res://Assets/Sprites/UI/inventory-background.png" id="1_xf4qe"]
+
+[sub_resource type="FontVariation" id="FontVariation_5a013"]
+
+[node name="Basic_Inventory" type="HBoxContainer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = -16.0
+offset_right = 28.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(7, 7)
+
+[node name="Slot1" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_xf4qe")
+
+[node name="Item1" type="TextureRect" parent="Slot1"]
+z_index = 1
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 9.0
+offset_bottom = 9.0
+
+[node name="ItemNum1" type="Label" parent="Slot1"]
+z_index = 1
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_fonts/font = SubResource("FontVariation_5a013")
+theme_override_font_sizes/font_size = 4
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot2" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_xf4qe")
+
+[node name="Item2" type="TextureRect" parent="Slot2"]
+z_index = 1
+z_as_relative = false
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 9.0
+offset_bottom = 9.0
+
+[node name="ItemNum2" type="Label" parent="Slot2"]
+z_index = 1
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_fonts/font = SubResource("FontVariation_5a013")
+theme_override_font_sizes/font_size = 4
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot3" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_xf4qe")
+
+[node name="Item3" type="TextureRect" parent="Slot3"]
+z_index = 1
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 9.0
+offset_bottom = 9.0
+
+[node name="ItemNum3" type="Label" parent="Slot3"]
+z_index = 1
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_fonts/font = SubResource("FontVariation_5a013")
+theme_override_font_sizes/font_size = 4
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot4" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_xf4qe")
+
+[node name="Item4" type="TextureRect" parent="Slot4"]
+z_index = 1
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 9.0
+offset_bottom = 9.0
+
+[node name="ItemNum4" type="Label" parent="Slot4"]
+z_index = 1
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_fonts/font = SubResource("FontVariation_5a013")
+theme_override_font_sizes/font_size = 4
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot5" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_xf4qe")
+
+[node name="Item5" type="TextureRect" parent="Slot5"]
+z_index = 1
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 9.0
+offset_bottom = 9.0
+
+[node name="ItemNum5" type="Label" parent="Slot5"]
+z_index = 1
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_fonts/font = SubResource("FontVariation_5a013")
+theme_override_font_sizes/font_size = 4
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 2
